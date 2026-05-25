@@ -84,9 +84,9 @@ checkfound() {
 
 select_template() {
     printf "\n"
-    printf "\e[1;90m    ╔════════════════════════════════════════════╗\e[0m\n"
+    printf "\e[1;90m    ╔═════════════════════════════════════════╗\e[0m\n"
     printf "\e[1;90m    ║\e[0m\e[1;97m            TEMPLATES                 \e[0m\e[1;90m║\e[0m\n"
-    printf "\e[1;90m    ╠════════════════════════════════════════════╣\e[0m\n"
+    printf "\e[1;90m    ╠═════════════════════════════════════════╣\e[0m\n"
     printf "\e[1;90m    ║\e[0m\e[1;92m  [1] Festival Greeting\e[0m\e[1;90m               ║\e[0m\n"
     printf "\e[1;90m    ║\e[0m\e[1;92m  [2] Online Meeting\e[0m\e[1;90m                  ║\e[0m\n"
     printf "\e[1;90m    ║\e[0m\e[1;92m  [3] Live Stream\e[0m\e[1;90m                     ║\e[0m\n"
@@ -95,7 +95,7 @@ select_template() {
     printf "\e[1;90m    ║\e[0m\e[1;92m  [6] Support Chat\e[0m\e[1;90m                    ║\e[0m\n"
     printf "\e[1;90m    ║\e[0m\e[1;92m  [7] Job Interview\e[0m\e[1;90m                   ║\e[0m\n"
     printf "\e[1;90m    ║\e[0m\e[1;92m  [8] Doctor Visit\e[0m\e[1;90m                    ║\e[0m\n"
-    printf "\e[1;90m    ╚════════════════════════════════════════════╝\e[0m\n"
+    printf "\e[1;90m    ╚═════════════════════════════════════════╝\e[0m\n"
     printf "\n"
     read -p $'\e[1;92m🐐[\e[0m+\e[1;92m] Choose template: \e[0m' template_opt
 
@@ -114,12 +114,12 @@ select_template() {
 
 tunnel_select() {
     printf "\n"
-    printf "\e[1;90m    ╔══════════════════════════════════════════════════╗\e[0m\n"
+    printf "\e[1;90m    ╔═════════════════════════════════════════╗\e[0m\n"
     printf "\e[1;90m    ║\e[0m\e[1;97m           TUNNEL OPTIONS             \e[0m\e[1;90m║\e[0m\n"
-    printf "\e[1;90m    ╠══════════════════════════════════════════════════╣\e[0m\n"
+    printf "\e[1;90m    ╠═════════════════════════════════════════╣\e[0m\n"
     printf "\e[1;90m    ║\e[0m\e[1;92m  [1] Cloudflare Tunnel (Recommended)\e[0m\e[1;90m ║\e[0m\n"
     printf "\e[1;90m    ║\e[0m\e[1;94m  [2] Localhost Only\e[0m\e[1;90m                  ║\e[0m\n"
-    printf "\e[1;90m    ╚══════════════════════════════════════════════════╝\e[0m\n"
+    printf "\e[1;90m    ╚═════════════════════════════════════════╝\e[0m\n"
     printf "\n"
     read -p $'\e[1;92m🐐[\e[0m+\e[1;92m] Choose tunnel: \e[0m' tunnel_opt
 
