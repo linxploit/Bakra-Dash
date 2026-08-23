@@ -13,7 +13,7 @@ if (!empty($_POST['lat']) && !empty($_POST['lon'])) {
     $file = 'location_current.txt';
     file_put_contents($file, $data);
     
-    // Also save to master log
+
     if (!is_dir('saved_locations')) {
         mkdir('saved_locations', 0755, true);
     }
